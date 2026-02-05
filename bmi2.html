@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Uโปรแกรมคำนวณหาค่าดัชนีมวลกาย (BMI)</title>
+<style type="text/css">
+    body {
+        font-family: Tahoma, Geneva, sans-serif;
+        font-size: 14px;
+        text-align: center;
+    }
+    h2 {
+        color: #003366;
+    }
+    .container {
+        width: 400px;
+        margin: 0 auto;
+        border: 1px solid #ddd;
+        padding: 20px;
+        background-color: #f9f9f9;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    td {
+        padding: 10px;
+        border: 1px solid #eee;
+    }
+    .label {
+        font-weight: bold;
+        text-align: left;
+        width: 30%;
+    }
+    input[type="text"] {
+        width: 90%;
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+    .btn-calc {
+        background-color: #003366;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        font-weight: bold;
+        border-radius: 4px;
+    }
+    .btn-clear {
+        background-color: #003366;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        font-weight: bold;
+        border-radius: 4px;
+    }
+    .readonly {
+        background-color: #f0f0f0;
+    }
+</style>
+
+<script type="text/javascript">
+function calculateBMI() {
+    
+    var weight = parseFloat(document.getElementById('weight').value);
+    var height = parseFloat(document.getElementById('height').value);
+    
+    if (isNaN(weight) || isNaN(height) || weight <= 0 || height <= 0) {
+        alert("กรุณากรอกน้ำหนักและส่วนสูงให้ถูกต้อง");
+        return;
+    }
+
+    
+    var heightInMeters = height / 100;
+    var bmi = weight / (heightInMeters * heightInMeters);
+
+    
+    document.getElementById('bmi_result').value = bmi.toFixed(2);
+
+ 
+    var criteriaText = "";
+    if (bmi < 18.5) {
+        criteriaText = "ผอมเกินไป";
+    } else if (bmi >= 18.5 && bmi <= 22.9) {
+        criteriaText = "น้ำหนักปกติ (สมส่วน)";
+    } else if (bmi >= 23.0 && bmi <= 24.9) {
+        criteriaText = "น้ำหนักเกิน (ท้วม)";
+    } else if (bmi >= 25.0 && bmi <= 29.9) {
+        criteriaText = "อ้วน (โรคอ้วนระดับ 1)";
+    } else {
+        criteriaText = "อ้วนมาก (โรคอ้วนระดับ 2)";
+    }
+
+    document.getElementById('criteria_result').value = criteriaText;
+}
+
+function clearForm() {
+    document.getElementById('weight').value = "";
+    document.getElementById('height').value = "";
+    document.getElementById('bmi_result').value = "";
+    document.getElementById('criteria_result').value = "";
+    document.getElementById('weight').focus();
+}
+</script>
+</head>
+
+<body>
+<div class="container">
+        <h2>โปรแกรมคำนวณหาค่าดัชนีมวลกาย (BMI)</h2>
+        <hr style="width: 50%; color: blue; background-color: blue; height: 3px; border: none;" />
+        <br />
+        <form id="bmiForm">
+            <table>
+                <tr>
+                    <td class="label">น้ำหนัก :</td>
+                    <td>
+                        <input type="text" id="weight" name="weight" /> <br />
+                        <span style="font-size: 12px; color: #555;">กิโลกรัม</span>
+                    </td>
+                </tr>
+				 <tr>
+                    <td class="label">ส่วนสูง :</td>
+                    <td>
+                        <input type="text" id="height" name="height" /> <br />
+                        <span style="font-size: 12px; color: #555;">เซนติเมตร</span>
+                    </td>
+                </tr>
+				<tr>
+                    <td> </td>
+                    <td>
+                        <input type="button" name="btnCal" value="คำนวณ" class="btn-calc" onclick="calculateBMI()" />
+                    </td>
+                </tr>
+				 <tr>
+                    <td class="label">ค่าที่ได้ :</td>
+                    <td>
+                        <input type="text" id="bmi_result" class="readonly" readonly="readonly" />
+                    </td>
+                </tr>
+				<tr>
+                    <td class="label">คุณอยู่ในเกณฑ์ :</td>
+                    <td>
+                        <input type="text" id="criteria_result" class="readonly" readonly="readonly" />
+                    </td>
+                </tr>
+				 <tr>
+                    <td>&nbsp;</td>
+                    <td>
+                        <input type="button" name="btnClear" value="เคลียร์ข้อมูล" class="btn-clear" onclick="clearForm()" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+</body>
+</html>
